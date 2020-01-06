@@ -1,0 +1,2 @@
+include ':app', ':mapirservice'
+rootProject.name='MapirServiceTest'

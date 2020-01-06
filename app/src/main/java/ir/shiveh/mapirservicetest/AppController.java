@@ -1,0 +1,15 @@
+package ir.shiveh.mapirservicetest;
+
+import android.app.Application;
+
+import ir.mapservice.MapirService;
+
+public class AppController extends Application {
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        MapirService.setApiKey("eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImEzZmI4NjkwYjRlOTMyNjBjNGI4ZGYxMzc1YmViYWZmNjJjNzEwNDU5NDNiYmU1YmEzNWUzNDIzNzZhZDJiNWY3YzNlZTRhMGM3YWNjY2EzIn0.eyJhdWQiOiI2OTkwIiwianRpIjoiYTNmYjg2OTBiNGU5MzI2MGM0YjhkZjEzNzViZWJhZmY2MmM3MTA0NTk0M2JiZTViYTM1ZTM0MjM3NmFkMmI1ZjdjM2VlNGEwYzdhY2NjYTMiLCJpYXQiOjE1NzU5NjMyNTgsIm5iZiI6MTU3NTk2MzI1OCwiZXhwIjoxNTc4NDY4ODU4LCJzdWIiOiIiLCJzY29wZXMiOlsiYmFzaWMiXX0.uCTmGpZ0dBAvPM0bsPd00Zf2WsNaghbVWydQRcgDZCst9G9xpVQipKdfuna3-nvIVxWyCu1Q766tCFlLRo5ipL0CYOsmhCNXq5kAYI2pzYSft7ijL_KPbW25XX1sQT4mjRi5PphfvBUzMjxR1-OJUVovxbyQfh9O5TQiYzFIHo-zf7YpsLQf1wIxInJgkdjjhgxLqICVQzbmatFQga01UjXzHF8-o_jPSxX6wM8x8qwwraL49rTUpb68fvvQCI7JRH4okvzqgfYj9TpCQYDrMukp8P3RtSPKLl_823NPx1LB8QHi_3QoJW173hrHryWRt_7DfLX8CF6bm55lz03dJA");
+    }
+}
