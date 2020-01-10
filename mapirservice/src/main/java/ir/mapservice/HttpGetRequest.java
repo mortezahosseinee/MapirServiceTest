@@ -1,5 +1,7 @@
 package ir.mapservice;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import java.io.BufferedInputStream;
@@ -43,9 +45,41 @@ class HttpGetRequest {
         return readStream(urlConnection);
     }
 
+    String getErrorBody() {
+        return readErrorStream(urlConnection);
+    }
+
+    Bitmap getBitmap() {
+        try {
+            return BitmapFactory.decodeStream(urlConnection.getInputStream());
+        } catch (Exception e) {
+        }
+
+        return null;
+    }
+
     private static String readStream(HttpURLConnection urlConnection) {
         try {
             InputStream it = new BufferedInputStream(urlConnection.getInputStream());
+            InputStreamReader read = new InputStreamReader(it);
+            BufferedReader buff = new BufferedReader(read);
+            StringBuilder data = new StringBuilder();
+            String chunks;
+
+            while ((chunks = buff.readLine()) != null)
+                data.append(chunks);
+
+            return data.toString();
+        } catch (Exception e) {
+            Log.e(MapirService.class.getName(), e.toString());
+        }
+
+        return null;
+    }
+
+    private static String readErrorStream(HttpURLConnection urlConnection) {
+        try {
+            InputStream it = new BufferedInputStream(urlConnection.getErrorStream());
             InputStreamReader read = new InputStreamReader(it);
             BufferedReader buff = new BufferedReader(read);
             StringBuilder data = new StringBuilder();

@@ -1,6 +1,5 @@
 package ir.mapservice.models.responses;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import ir.mapservice.models.base.BaseModel;
@@ -9,7 +8,7 @@ import ir.mapservice.models.other.Geom;
 
 import static ir.mapservice.MapirService.createGeom;
 
-public class ReverseGeoCodeResponse extends MapirResponse {
+public class PlaqueReverseGeoCodeResponse extends MapirResponse {
 
     private String address;
     private String postalAddress;
@@ -32,7 +31,7 @@ public class ReverseGeoCodeResponse extends MapirResponse {
     private Geom geom;
 
 
-    public ReverseGeoCodeResponse(String address, String postalAddress, String addressCompact, String last, String name, String poi, String country, String province, String county, String district, String ruralDistrict, String city, String village, String region, String neighbourhood, String primary, String plaque, String postalCode, Geom geom) {
+    public PlaqueReverseGeoCodeResponse(String address, String postalAddress, String addressCompact, String last, String name, String poi, String country, String province, String county, String district, String ruralDistrict, String city, String village, String region, String neighbourhood, String primary, String plaque, String postalCode, Geom geom) {
         this.address = address;
         this.postalAddress = postalAddress;
         this.addressCompact = addressCompact;
@@ -130,11 +129,11 @@ public class ReverseGeoCodeResponse extends MapirResponse {
         return geom;
     }
 
-    public static BaseModel createReverseGeoCodeResponse(String data) {
+    public static BaseModel createPlaqueReverseGeoCodeResponse(String data) {
         try {
             JSONObject tempData = new JSONObject(data);
 
-            return new ReverseGeoCodeResponse(
+            return new PlaqueReverseGeoCodeResponse(
                     tempData.getString("address"),
                     tempData.getString("postal_address"),
                     tempData.getString("address_compact"),

@@ -1,7 +1,5 @@
 package ir.mapservice.models.other;
 
-import java.util.List;
-
 public class Geom {
 
     private String type;

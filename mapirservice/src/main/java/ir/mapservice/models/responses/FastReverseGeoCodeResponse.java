@@ -128,7 +128,7 @@ public class FastReverseGeoCodeResponse extends MapirResponse {
         return geom;
     }
 
-    public static BaseModel createReverseGeoCodeResponse(String data) {
+    public static BaseModel createFastReverseGeoCodeResponse(String data) {
         try {
             JSONObject tempData = new JSONObject(data);
             JSONObject tempGeom = new JSONObject(tempData.get("geom").toString());
