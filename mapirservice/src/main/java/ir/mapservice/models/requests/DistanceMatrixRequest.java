@@ -1,38 +1,33 @@
 package ir.mapservice.models.requests;
 
+import androidx.annotation.NonNull;
+
 import java.util.List;
 
 import ir.mapservice.models.other.DistanceMatrixOutputType;
 import ir.mapservice.models.other.DistanceMatrixPointRequest;
+import ir.mapservice.models.other.RouteOverView;
+import ir.mapservice.models.other.RoutePlan;
+import ir.mapservice.models.other.RouteType;
+
+import static ir.mapservice.models.other.RouteType.DRIVING;
 
 public class DistanceMatrixRequest {
 
     private List<DistanceMatrixPointRequest> origins;
     private List<DistanceMatrixPointRequest> destinations;
-    private boolean sorted = false;
-    private String filter = null;
+    private boolean sorted;
+    private String filter;
 
-    public DistanceMatrixRequest(List<DistanceMatrixPointRequest> origins, List<DistanceMatrixPointRequest> destinations, boolean sorted) {
-        if (origins.size() == 0)
-            throw new RuntimeException("origins for distanceMatrix api must have at least on point.");
-        else if (destinations.size() == 0)
-            throw new RuntimeException("destinations for distanceMatrix api must have at least on point.");
-
+    private DistanceMatrixRequest(
+            List<DistanceMatrixPointRequest> origins,
+            List<DistanceMatrixPointRequest> destinations,
+            boolean sorted,
+            String filter) {
         this.origins = origins;
         this.destinations = destinations;
         this.sorted = sorted;
-    }
-
-    public DistanceMatrixRequest(List<DistanceMatrixPointRequest> origins, List<DistanceMatrixPointRequest> destinations, boolean sorted, DistanceMatrixOutputType outputType) {
-        if (origins.size() == 0)
-            throw new RuntimeException("origins for distanceMatrix api must have at least on point.");
-        else if (destinations.size() == 0)
-            throw new RuntimeException("destinations for distanceMatrix api must have at least on point.");
-
-        this.origins = origins;
-        this.destinations = destinations;
-        this.sorted = sorted;
-        this.filter = outputType.toString();
+        this.filter = filter;
     }
 
     public String getOrigins() {
@@ -75,5 +70,42 @@ public class DistanceMatrixRequest {
 
     public boolean hasFilter() {
         return filter != null;
+    }
+
+    public static class Builder {
+
+        private List<DistanceMatrixPointRequest> origins;
+        private List<DistanceMatrixPointRequest> destinations;
+        private boolean sorted = false;
+        private String filter = null;
+
+        public Builder(List<DistanceMatrixPointRequest> origins, List<DistanceMatrixPointRequest> destinations) {
+            if (origins.size() == 0)
+                throw new RuntimeException("origins for distanceMatrix api must have at least on point.");
+            else if (destinations.size() == 0)
+                throw new RuntimeException("destinations for distanceMatrix api must have at least on point.");
+
+            this.origins = origins;
+            this.destinations = destinations;
+        }
+
+        public Builder sorted(boolean value) {
+            this.sorted = value;
+
+            return this;
+        }
+
+        public Builder filter(@NonNull DistanceMatrixOutputType outputType) {
+            if (outputType != null) {
+                this.filter = "type eq " + outputType.toString();
+            } else
+                throw new RuntimeException("Filter outputType can not be null.");
+
+            return this;
+        }
+
+        public DistanceMatrixRequest build() {
+            return new DistanceMatrixRequest(origins, destinations, sorted, filter);
+        }
     }
 }

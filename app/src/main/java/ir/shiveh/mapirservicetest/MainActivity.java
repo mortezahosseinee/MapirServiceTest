@@ -18,6 +18,7 @@ import ir.mapservice.models.other.FilterOptions;
 import ir.mapservice.models.other.RouteOverView;
 import ir.mapservice.models.other.RoutePlan;
 import ir.mapservice.models.other.SelectOptions;
+import ir.mapservice.models.requests.DistanceMatrixRequest;
 import ir.mapservice.models.requests.RouteRequest;
 import ir.mapservice.models.requests.SearchRequest;
 import ir.mapservice.models.responses.AutoCompleteSearchResponse;
@@ -29,6 +30,7 @@ import ir.mapservice.models.responses.RouteResponse;
 import ir.mapservice.models.responses.SearchResponse;
 import ir.mapservice.models.responses.StaticMapResponse;
 
+import static ir.mapservice.models.other.DistanceMatrixOutputType.DISTANCE;
 import static ir.mapservice.models.other.RouteType.DRIVING;
 
 public class MainActivity extends AppCompatActivity implements ResponseListener {
@@ -68,20 +70,26 @@ public class MainActivity extends AppCompatActivity implements ResponseListener 
 //        mapirService.reverseGeoCode(35.1213654, 51.236548);
 //        mapirService.fastReverseGeoCode(35.807665, 51.507960);
 //        mapirService.plaqueReverseGeoCode(35.807665, 51.507960);
-//        mapirService.route(35.808208, 51.507911, 35.793179, 51.462016, DRIVING, EVEN_ODD);
 //        mapirService.staticMap(35.808208, 51.507911, 800, 1200, 18, "خونه مرتضی اینا", PINK);
 
-        List<DistanceMatrixPointRequest> tempOrigins = new ArrayList<>();
-        tempOrigins.add(new DistanceMatrixPointRequest(1, 35.808208, 51.507911));
-        tempOrigins.add(new DistanceMatrixPointRequest(2, 35.808207, 51.500098));
-        tempOrigins.add(new DistanceMatrixPointRequest(3, 35.804201, 51.461849));
-        tempOrigins.add(new DistanceMatrixPointRequest(4, 35.780042, 51.414385));
+//        List<DistanceMatrixPointRequest> tempOrigins = new ArrayList<>();
+//        tempOrigins.add(new DistanceMatrixPointRequest(1, 35.808208, 51.507911));
+//        tempOrigins.add(new DistanceMatrixPointRequest(2, 35.808207, 51.500098));
+//        tempOrigins.add(new DistanceMatrixPointRequest(3, 35.804201, 51.461849));
+//        tempOrigins.add(new DistanceMatrixPointRequest(4, 35.780042, 51.414385));
+//
+//        List<DistanceMatrixPointRequest> tempDestinations = new ArrayList<>();
+//        tempDestinations.add(new DistanceMatrixPointRequest(5, 35.677769, 51.266842));
+//        tempDestinations.add(new DistanceMatrixPointRequest(6, 35.643731, 51.383057));
+//        tempDestinations.add(new DistanceMatrixPointRequest(7, 35.648619, 51.479530));
+//        tempDestinations.add(new DistanceMatrixPointRequest(8, 35.676652, 51.373959));
 
-        List<DistanceMatrixPointRequest> tempDestinations = new ArrayList<>();
-        tempDestinations.add(new DistanceMatrixPointRequest(5, 35.677769, 51.266842));
-        tempDestinations.add(new DistanceMatrixPointRequest(6, 35.643731, 51.383057));
-        tempDestinations.add(new DistanceMatrixPointRequest(7, 35.648619, 51.479530));
-        tempDestinations.add(new DistanceMatrixPointRequest(8, 35.676652, 51.373959));
+//        mapirService.distanceMatrix(
+//                new DistanceMatrixRequest.Builder(tempOrigins, tempDestinations)
+//                        .sorted(false)
+//                        .filter(DISTANCE)
+//                        .build()
+//        );
     }
 
     @Override

@@ -36,32 +36,36 @@ public class DistanceMatrixResponse extends MapirResponse {
         try {
             JSONObject tempData = new JSONObject(data);
 
-            JSONArray tempDistanceMatrixResultByDistanceItems = new JSONArray(tempData.get("distance").toString());
             List<ResultByDistance> resultByDistanceItems = new ArrayList<>();
-            for (int i = 0; i < tempDistanceMatrixResultByDistanceItems.length(); i++) {
-                JSONObject tempResultItem = new JSONObject(tempDistanceMatrixResultByDistanceItems.get(i).toString());
+            if (tempData.has("distance")) {
+                JSONArray tempDistanceMatrixResultByDistanceItems = new JSONArray(tempData.get("distance").toString());
+                for (int i = 0; i < tempDistanceMatrixResultByDistanceItems.length(); i++) {
+                    JSONObject tempResultItem = new JSONObject(tempDistanceMatrixResultByDistanceItems.get(i).toString());
 
-                ResultByDistance item = new ResultByDistance(
-                        tempResultItem.getString("origin_index"),
-                        tempResultItem.getString("destination_index"),
-                        tempResultItem.getDouble("distance")
-                );
+                    ResultByDistance item = new ResultByDistance(
+                            tempResultItem.getString("origin_index"),
+                            tempResultItem.getString("destination_index"),
+                            tempResultItem.getDouble("distance")
+                    );
 
-                resultByDistanceItems.add(item);
+                    resultByDistanceItems.add(item);
+                }
             }
 
-            JSONArray tempDistanceMatrixResultByDurationItems = new JSONArray(tempData.get("duration").toString());
             List<ResultByDuration> resultByDurationItems = new ArrayList<>();
-            for (int i = 0; i < tempDistanceMatrixResultByDurationItems.length(); i++) {
-                JSONObject tempResultItem = new JSONObject(tempDistanceMatrixResultByDurationItems.get(i).toString());
+            if (tempData.has("duration")) {
+                JSONArray tempDistanceMatrixResultByDurationItems = new JSONArray(tempData.get("duration").toString());
+                for (int i = 0; i < tempDistanceMatrixResultByDurationItems.length(); i++) {
+                    JSONObject tempResultItem = new JSONObject(tempDistanceMatrixResultByDurationItems.get(i).toString());
 
-                ResultByDuration item = new ResultByDuration(
-                        tempResultItem.getString("origin_index"),
-                        tempResultItem.getString("destination_index"),
-                        tempResultItem.getDouble("duration")
-                );
+                    ResultByDuration item = new ResultByDuration(
+                            tempResultItem.getString("origin_index"),
+                            tempResultItem.getString("destination_index"),
+                            tempResultItem.getDouble("duration")
+                    );
 
-                resultByDurationItems.add(item);
+                    resultByDurationItems.add(item);
+                }
             }
 
             JSONObject tempDistanceMatrixOriginItems = new JSONObject(tempData.get("origins").toString());

@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Step {
 
-    private List<Intersection> intersections = null;
+    private List<Intersection> intersections;
     private String drivingSide;
     private String geometry;
     private String mode;
@@ -14,7 +14,8 @@ public class Step {
     private Integer distance;
     private String name;
 
-    public Step(String drivingSide, String geometry, String mode, Integer duration, Maneuver maneuver, Integer weight, Integer distance, String name) {
+    public Step(List<Intersection> intersections, String drivingSide, String geometry, String mode, Integer duration, Maneuver maneuver, Integer weight, Integer distance, String name) {
+        this.intersections = intersections;
         this.drivingSide = drivingSide;
         this.geometry = geometry;
         this.mode = mode;
