@@ -1,26 +1,15 @@
 package ir.mapservice;
 
 import android.os.AsyncTask;
-import android.util.Pair;
-
-import androidx.annotation.Nullable;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-
-import java.util.List;
 
 import ir.mapservice.models.base.BaseModel;
 import ir.mapservice.models.base.MapirError;
 import ir.mapservice.models.base.MapirResponse;
 import ir.mapservice.models.listeners.ResponseListener;
-import ir.mapservice.models.other.DistanceMatrixOutputType;
-import ir.mapservice.models.other.DistanceMatrixPointRequest;
-import ir.mapservice.models.other.FilterOptions;
 import ir.mapservice.models.other.Geom;
-import ir.mapservice.models.other.RoutePlan;
-import ir.mapservice.models.other.RouteType;
-import ir.mapservice.models.other.SelectOptions;
 import ir.mapservice.models.other.StaticMapMarker;
 import ir.mapservice.models.requests.DistanceMatrixRequest;
 import ir.mapservice.models.requests.ReverseGeoCodeRequest;
@@ -63,61 +52,29 @@ public class MapirService {
         new PlaqueReverseGeoCodeTask().execute(new ReverseGeoCodeRequest(latitude, longitude));
     }
 
-    public void search(String text) {
-        new SearchTask().execute(new SearchRequest(text));
+    public void search(SearchRequest requestBody) {
+        new SearchTask().execute(requestBody);
     }
 
-    public void search(String text, @Nullable SelectOptions[] selects, @Nullable Pair<FilterOptions, Object> filter) {
-        new SearchTask().execute(new SearchRequest(text, selects, filter));
+    public void autoCompleteSearch(SearchRequest requestBody) {
+        new AutoCompleteSearchTask().execute(requestBody);
     }
 
-    public void search(String text, @Nullable SelectOptions[] selects, @Nullable Pair<FilterOptions, Object> filter, Double latitude, Double longitude) {
-        new SearchTask().execute(new SearchRequest(text, selects, filter, latitude, longitude));
-    }
-
-    public void autoCompleteSearch(String text) {
-        new AutoCompleteSearchTask().execute(new SearchRequest(text));
-    }
-
-    public void autoCompleteSearch(String text, @Nullable SelectOptions[] selects, @Nullable Pair<FilterOptions, Object> filter) {
-        new AutoCompleteSearchTask().execute(new SearchRequest(text, selects, filter));
-    }
-
-    public void autoCompleteSearch(String text, @Nullable SelectOptions[] selects, @Nullable Pair<FilterOptions, Object> filter, Double latitude, Double longitude) {
-        new AutoCompleteSearchTask().execute(new SearchRequest(text, selects, filter, latitude, longitude));
-    }
-
-    public void route(Double startLatitude, Double startLongitude, Double endLatitude, Double endLongitude, RouteType routeType) {
-        new RouteTask().execute(new RouteRequest(startLatitude, startLongitude, endLatitude, endLongitude, routeType));
-    }
-
-    public void route(Double startLatitude, Double startLongitude, Double endLatitude, Double endLongitude, RouteType routeType, RoutePlan routePlan) {
-        new RouteTask().execute(new RouteRequest(startLatitude, startLongitude, endLatitude, endLongitude, routeType, routePlan));
+    public void route(RouteRequest requestBody) {
+        new RouteTask().execute(requestBody);
     }
 
     public void staticMap(Double latitude, Double longitude, int width, int height, int zoom, String label, StaticMapMarker color) {
         new StaticMapTask().execute(new StaticMapRequest(latitude, longitude, width, height, zoom, label, color));
     }
 
-    public void distanceMatrix(List<DistanceMatrixPointRequest> origins, List<DistanceMatrixPointRequest> destinations) {
-        new DistanceMatrixTask().execute(new DistanceMatrixRequest(origins, destinations, false));
-    }
-
-    public void distanceMatrix(List<DistanceMatrixPointRequest> origins, List<DistanceMatrixPointRequest> destinations, boolean sorted) {
-        new DistanceMatrixTask().execute(new DistanceMatrixRequest(origins, destinations, sorted));
-    }
-
-    public void distanceMatrix(List<DistanceMatrixPointRequest> origins, List<DistanceMatrixPointRequest> destinations, DistanceMatrixOutputType outputType) {
-        new DistanceMatrixTask().execute(new DistanceMatrixRequest(origins, destinations, false, outputType));
-    }
-
-    public void distanceMatrix(List<DistanceMatrixPointRequest> origins, List<DistanceMatrixPointRequest> destinations, boolean sorted, DistanceMatrixOutputType outputType) {
-        new DistanceMatrixTask().execute(new DistanceMatrixRequest(origins, destinations, sorted, outputType));
+    public void distanceMatrix(DistanceMatrixRequest requestBody) {
+        new DistanceMatrixTask().execute(requestBody);
     }
     //endregion Methods
 
     //region Classes
-    class ReverseGeoCodeTask extends AsyncTask<ReverseGeoCodeRequest, Void, BaseModel> {
+    private class ReverseGeoCodeTask extends AsyncTask<ReverseGeoCodeRequest, Void, BaseModel> {
         @Override
         protected BaseModel doInBackground(ReverseGeoCodeRequest... reverseGeoCodeRequests) {
             HttpGetRequest request = new HttpGetRequest(
@@ -138,7 +95,7 @@ public class MapirService {
         }
     }
 
-    class FastReverseGeoCodeTask extends AsyncTask<ReverseGeoCodeRequest, Void, BaseModel> {
+    private class FastReverseGeoCodeTask extends AsyncTask<ReverseGeoCodeRequest, Void, BaseModel> {
         @Override
         protected BaseModel doInBackground(ReverseGeoCodeRequest... reverseGeoCodeRequests) {
             HttpGetRequest request = new HttpGetRequest(
@@ -158,7 +115,7 @@ public class MapirService {
         }
     }
 
-    class PlaqueReverseGeoCodeTask extends AsyncTask<ReverseGeoCodeRequest, Void, BaseModel> {
+    private class PlaqueReverseGeoCodeTask extends AsyncTask<ReverseGeoCodeRequest, Void, BaseModel> {
         @Override
         protected BaseModel doInBackground(ReverseGeoCodeRequest... reverseGeoCodeRequests) {
             HttpGetRequest request = new HttpGetRequest(
@@ -178,7 +135,7 @@ public class MapirService {
         }
     }
 
-    class SearchTask extends AsyncTask<SearchRequest, Void, BaseModel> {
+    private class SearchTask extends AsyncTask<SearchRequest, Void, BaseModel> {
         @Override
         protected BaseModel doInBackground(SearchRequest... searchRequest) {
             HttpGetRequest request;
@@ -248,7 +205,7 @@ public class MapirService {
         }
     }
 
-    class AutoCompleteSearchTask extends AsyncTask<SearchRequest, Void, BaseModel> {
+    private class AutoCompleteSearchTask extends AsyncTask<SearchRequest, Void, BaseModel> {
         @Override
         protected BaseModel doInBackground(SearchRequest... searchRequest) {
             HttpGetRequest request;
@@ -318,14 +275,14 @@ public class MapirService {
         }
     }
 
-    class RouteTask extends AsyncTask<RouteRequest, Void, BaseModel> {
+    private class RouteTask extends AsyncTask<RouteRequest, Void, BaseModel> {
         @Override
         protected BaseModel doInBackground(RouteRequest... routeRequest) {
             HttpGetRequest request;
             if (routeRequest[0].getRouteType().equals("route"))
                 request = new HttpGetRequest(
                         "routes/" +
-                                (!routeRequest[0].getRoutePlan().equals("") ? routeRequest[0].getRoutePlan() : routeRequest[0].getRouteType()) +
+                                (routeRequest[0].hasRoutePlan() ? routeRequest[0].getRoutePlan() : routeRequest[0].getRouteType()) +
                                 "/v1/driving" +
                                 "/" + routeRequest[0].getStartLongitude() +
                                 "," + routeRequest[0].getStartLatitude() +
@@ -333,7 +290,7 @@ public class MapirService {
                                 "," + routeRequest[0].getEndLatitude() +
                                 "?alternatives=" + routeRequest[0].isAlternatives() +
                                 "&steps=" + routeRequest[0].needSteps() +
-                                (routeRequest[0].getRouteOverView().equals("false") ? "" : routeRequest[0].getRouteOverView())
+                                (routeRequest[0].getRouteOverView().equals("false") ? "" : "&overview=" + routeRequest[0].getRouteOverView())
                 );
             else
                 request = new HttpGetRequest(
@@ -345,7 +302,7 @@ public class MapirService {
                                 "," + routeRequest[0].getEndLatitude() +
                                 "?alternatives=" + routeRequest[0].isAlternatives() +
                                 "&steps=" + routeRequest[0].needSteps() +
-                                (routeRequest[0].getRouteOverView().equals("false") ? "" : routeRequest[0].getRouteOverView())
+                                (routeRequest[0].getRouteOverView().equals("false") ? "" : "&overview=" + routeRequest[0].getRouteOverView())
                 );
 
             return createResponse(request, "route");
@@ -359,7 +316,7 @@ public class MapirService {
         }
     }
 
-    class StaticMapTask extends AsyncTask<StaticMapRequest, Void, BaseModel> {
+    private class StaticMapTask extends AsyncTask<StaticMapRequest, Void, BaseModel> {
         @Override
         protected BaseModel doInBackground(StaticMapRequest... staticMapRequest) {
             HttpGetRequest request = new HttpGetRequest(
@@ -384,7 +341,7 @@ public class MapirService {
         }
     }
 
-    class DistanceMatrixTask extends AsyncTask<DistanceMatrixRequest, Void, BaseModel> {
+    private class DistanceMatrixTask extends AsyncTask<DistanceMatrixRequest, Void, BaseModel> {
         @Override
         protected BaseModel doInBackground(DistanceMatrixRequest... distanceMatrixRequest) {
             HttpGetRequest request = new HttpGetRequest(
@@ -417,7 +374,7 @@ public class MapirService {
                     tempCoordinates.getDouble(0),
                     tempCoordinates.getDouble(1)
             });
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
 
         return null;

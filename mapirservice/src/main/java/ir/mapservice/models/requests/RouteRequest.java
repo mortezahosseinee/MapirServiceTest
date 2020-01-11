@@ -16,73 +16,13 @@ public class RouteRequest {
     private Double endLongitude;
 
     private String routeType;
-    private String routePlan = "";
-    private String routeOverView = RouteOverView.NONE.toString();
+    private String routePlan = null;
+    private String routeOverView;
 
-    private boolean alternatives = false;
-    private boolean steps = false;
+    private boolean alternatives;
+    private boolean steps;
 
-    public RouteRequest(
-            Double startLatitude,
-            Double startLongitude,
-            Double endLatitude,
-            Double endLongitude,
-            @NonNull RouteType routeType) {
-        this.startLatitude = startLatitude;
-        this.startLongitude = startLongitude;
-        this.endLatitude = endLatitude;
-        this.endLongitude = endLongitude;
-        this.routeType = routeType.toString();
-    }
-
-    public RouteRequest(
-            Double startLatitude,
-            Double startLongitude,
-            Double endLatitude,
-            Double endLongitude,
-            @NonNull RouteType routeType,
-            @NonNull RoutePlan routePlan) {
-        this.startLatitude = startLatitude;
-        this.startLongitude = startLongitude;
-        this.endLatitude = endLatitude;
-        this.endLongitude = endLongitude;
-
-        this.routeType = routeType.toString();
-
-        if (routeType == DRIVING)
-            this.routePlan = routePlan.toString();
-        else
-            throw new RuntimeException("can't have RoutePlan with RouteType equals to BICYCLE or WALKING");
-    }
-
-    public RouteRequest(
-            Double startLatitude,
-            Double startLongitude,
-            Double endLatitude,
-            Double endLongitude,
-            @NonNull RouteType routeType,
-            boolean alternative,
-            boolean steps
-    ) {
-        this.startLatitude = startLatitude;
-        this.startLongitude = startLongitude;
-        this.endLatitude = endLatitude;
-        this.endLongitude = endLongitude;
-        this.routeType = routeType.toString();
-        this.alternatives = alternative;
-        this.steps = steps;
-    }
-
-    public RouteRequest(
-            Double startLatitude,
-            Double startLongitude,
-            Double endLatitude,
-            Double endLongitude,
-            @NonNull RouteType routeType,
-            @NonNull RoutePlan routePlan,
-            boolean alternative,
-            boolean steps
-    ) {
+    private RouteRequest(Double startLatitude, Double startLongitude, Double endLatitude, Double endLongitude, String routeType, String routePlan, String routeOverView, boolean alternative, boolean steps) {
         this.startLatitude = startLatitude;
         this.startLongitude = startLongitude;
         this.endLatitude = endLatitude;
@@ -90,98 +30,8 @@ public class RouteRequest {
         this.alternatives = alternative;
         this.steps = steps;
 
-        this.routeType = routeType.toString();
-
-        if (routeType == DRIVING)
-            this.routePlan = routePlan.toString();
-        else
-            throw new RuntimeException("can't have RoutePlan with RouteType equals to BICYCLE or WALKING");
-    }
-
-    public RouteRequest(
-            Double startLatitude,
-            Double startLongitude,
-            Double endLatitude,
-            Double endLongitude,
-            @NonNull RouteType routeType,
-            @NonNull RouteOverView routeOverView
-    ) {
-        this.startLatitude = startLatitude;
-        this.startLongitude = startLongitude;
-        this.endLatitude = endLatitude;
-        this.endLongitude = endLongitude;
-        this.routeType = routeType.toString();
-        this.routeOverView = routeOverView.toString();
-    }
-
-    public RouteRequest(
-            Double startLatitude,
-            Double startLongitude,
-            Double endLatitude,
-            Double endLongitude,
-            @NonNull RouteType routeType,
-            @NonNull RoutePlan routePlan,
-            @NonNull RouteOverView routeOverView
-    ) {
-        this.startLatitude = startLatitude;
-        this.startLongitude = startLongitude;
-        this.endLatitude = endLatitude;
-        this.endLongitude = endLongitude;
-
-        this.routeType = routeType.toString();
-        this.routeOverView = routeOverView.toString();
-
-        if (routeType == DRIVING)
-            this.routePlan = routePlan.toString();
-        else
-            throw new RuntimeException("can't have RoutePlan with RouteType equals to BICYCLE or WALKING");
-    }
-
-    public RouteRequest(
-            Double startLatitude,
-            Double startLongitude,
-            Double endLatitude,
-            Double endLongitude,
-            @NonNull RouteType routeType,
-            boolean alternative,
-            boolean steps,
-            @NonNull RouteOverView routeOverView
-    ) {
-        this.startLatitude = startLatitude;
-        this.startLongitude = startLongitude;
-        this.endLatitude = endLatitude;
-        this.endLongitude = endLongitude;
-        this.routeType = routeType.toString();
-        this.alternatives = alternative;
-        this.steps = steps;
-        this.routeOverView = routeOverView.toString();
-    }
-
-    public RouteRequest(
-            Double startLatitude,
-            Double startLongitude,
-            Double endLatitude,
-            Double endLongitude,
-            @NonNull RouteType routeType,
-            @NonNull RoutePlan routePlan,
-            boolean alternative,
-            boolean steps,
-            @NonNull RouteOverView routeOverView
-    ) {
-        this.startLatitude = startLatitude;
-        this.startLongitude = startLongitude;
-        this.endLatitude = endLatitude;
-        this.endLongitude = endLongitude;
-        this.alternatives = alternative;
-        this.steps = steps;
-
-        this.routeType = routeType.toString();
-        this.routeOverView = routeOverView.toString();
-
-        if (routeType == DRIVING)
-            this.routePlan = routePlan.toString();
-        else
-            throw new RuntimeException("can't have RoutePlan with RouteType equals to BICYCLE or WALKING");
+        this.routeType = routeType;
+        this.routeOverView = routeOverView;
     }
 
     public Double getStartLatitude() {
@@ -218,5 +68,75 @@ public class RouteRequest {
 
     public boolean needSteps() {
         return steps;
+    }
+
+    public boolean hasRoutePlan() {
+        return this.routePlan != null;
+    }
+
+    public static class Builder {
+
+        private Double startLatitude;
+        private Double startLongitude;
+        private Double endLatitude;
+        private Double endLongitude;
+        private String routeType;
+
+        private String routePlan = null;
+        private String routeOverView = RouteOverView.NONE.toString();
+
+        private boolean alternatives = false;
+        private boolean steps = false;
+
+        public Builder(
+                Double startLatitude,
+                Double startLongitude,
+                Double endLatitude,
+                Double endLongitude,
+                @NonNull RouteType routeType
+        ) {
+            this.startLatitude = startLatitude;
+            this.startLongitude = startLongitude;
+            this.endLatitude = endLatitude;
+            this.endLongitude = endLongitude;
+            this.routeType = routeType.toString();
+        }
+
+        public Builder routePlan(@NonNull RoutePlan routePlan) {
+            if (routePlan != null) {
+                if (this.routeType.equals(DRIVING.toString()))
+                    this.routePlan = routePlan.toString();
+                else
+                    throw new RuntimeException("can't have RoutePlan with RouteType equals to BICYCLE or WALKING");
+            } else
+                throw new RuntimeException("routePlan can't be null.");
+
+            return this;
+        }
+
+        public Builder routeOverView(@NonNull RouteOverView routeOverView) {
+            if (routeOverView != null)
+                this.routeOverView = routeOverView.toString();
+            else
+                throw new RuntimeException("routeOverView can not be null.");
+
+            return this;
+        }
+
+        public Builder alternative(boolean value) {
+            this.alternatives = value;
+
+            return this;
+        }
+
+        public Builder steps(boolean value) {
+            this.steps = value;
+
+            return this;
+        }
+
+        public RouteRequest build() {
+            return new RouteRequest(startLatitude, startLongitude, endLatitude, endLongitude, routeType, routePlan, routeOverView, alternatives, steps);
+        }
     }
 }

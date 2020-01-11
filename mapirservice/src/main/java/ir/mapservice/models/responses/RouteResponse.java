@@ -55,13 +55,13 @@ public class RouteResponse extends MapirResponse {
 
                         Step item = new Step(
                                 tempStep.getString("driving_side"),
-                                tempLeg.getString("geometry"),
-                                tempLeg.getString("mode"),
-                                tempLeg.getInt("duration"),
+                                tempStep.getString("geometry"),
+                                tempStep.getString("mode"),
+                                tempStep.getInt("duration"),
                                 new Maneuver(),
-                                tempLeg.getInt("weight"),
-                                tempLeg.getInt("distance"),
-                                tempLeg.getString("distance")
+                                tempStep.getInt("weight"),
+                                tempStep.getInt("distance"),
+                                tempStep.getString("distance")
                         );
 
                         steps.add(item);
