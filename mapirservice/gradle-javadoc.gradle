@@ -1,0 +1,19 @@
+android.libraryVariants.all { variant ->
+    def name = variant.name
+    // noinspection GroovyAssignabilityCheck
+    task "javadoc$name"(type: Javadoc) {
+        description = "Generates javadoc for build $name"
+        failOnError = false
+        destinationDir = new File(destinationDir, variant.baseName)
+        source = variant.javaCompile.source
+        options.windowTitle("MapirService Android SDK $VERSION_NAME Reference")
+        options.docTitle("MapirService Android SDK $VERSION_NAME")
+        options.header("MapirService Android SDK $VERSION_NAME Reference")
+        options.bottom("Map.ir All rights reserved.")
+        options.links("http://docs.oracle.com/javase/7/docs/api/")
+        options.linksOffline("http://d.android.com/reference/", "$System.env.ANDROID_HOME/docs/reference")
+        options.overview("src/main/java/overview.html")
+        options.group("MapirService Android SDK", "ir.map.*")
+        exclude '**/R.java', '**/BuildConfig.java'
+    }
+}
