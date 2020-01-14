@@ -52,9 +52,9 @@ install {
                 // Add your description here
                 name 'Mapir Service SDK for Android'
                 url siteUrl
-                groupId properties.getProperty('GROUPID')
-                artifactId properties.getProperty('ARTIFACT')
-                version properties.getProperty('VERSION_NAME')
+                groupId 'ir.map'
+                artifactId 'service-sdk'
+                version '4.0.0-beta1'
 
                 // Set your license
                 licenses {
@@ -87,17 +87,17 @@ bintray {
     configurations = ['archives']
 
     pkg {
-        repo = properties.getProperty('REPO')
-        name = properties.getProperty('GROUPID')
-        userOrg = properties.getProperty('USERORG')
+        repo = 'Service'
+        name = 'ir.map'
+        userOrg = 'shivehmapco'
         licenses = ['Apache-2.0']
         vcsUrl = 'https://github.com/bintray/gradle-bintray-plugin.git'
         version {
-            name = properties.getProperty('VERSION_NAME')
-            desc = properties.getProperty('VERSION_DESC')
+            name = '4.0.0-beta1'
+            desc = 'MapirService Sdk'
 
-            vcsTag = '0.1'
-            attributes = ['gradle-plugin': 'com.use.less:com.use.less.gradle:gradle-useless-plugin']
+//            vcsTag = '0.1'
+//            attributes = ['gradle-plugin': 'com.use.less:com.use.less.gradle:gradle-useless-plugin']
         }
     }
 }
