@@ -1,30 +1,19 @@
 package ir.shiveh.mapirservicetest;
 
 import android.os.Bundle;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import ir.map.sdk_service.MapirService;
-import ir.map.sdk_service.models.base.MapirError;
-import ir.map.sdk_service.models.base.MapirResponse;
-import ir.map.sdk_service.models.listeners.ResponseListener;
-import ir.map.sdk_service.models.requests.EstimatedTimeArrivalRequest;
-import ir.map.sdk_service.models.responses.AutoCompleteSearchResponse;
-import ir.map.sdk_service.models.responses.DistanceMatrixResponse;
-import ir.map.sdk_service.models.responses.EstimatedTimeArrivalResponse;
-import ir.map.sdk_service.models.responses.FastReverseGeoCodeResponse;
-import ir.map.sdk_service.models.responses.GeofenceResponse;
-import ir.map.sdk_service.models.responses.PlaqueReverseGeoCodeResponse;
-import ir.map.sdk_service.models.responses.ReverseGeoCodeResponse;
-import ir.map.sdk_service.models.responses.RouteResponse;
-import ir.map.sdk_service.models.responses.SearchResponse;
-import ir.map.sdk_service.models.responses.StaticMapResponse;
+import ir.map.sdk_service.main.MapirService;
+import ir.map.sdk_service.main.ResponseListener;
+import ir.map.sdk_service.model.base.MapirError;
+import ir.map.sdk_service.model.request.EstimatedTimeArrivalRequest;
+import ir.map.sdk_service.model.response.EstimatedTimeArrivalResponse;
 
-public class MainActivity extends AppCompatActivity implements ResponseListener {
+public class MainActivity extends AppCompatActivity {
 
-    private MapirService mapirService = new MapirService(this);
+    private MapirService mapirService = new MapirService();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,36 +79,18 @@ public class MainActivity extends AppCompatActivity implements ResponseListener 
                         .addDestination(35.643731, 51.383057)
                         .addDestination(35.648619, 51.479530)
                         .addDestination(35.676652, 51.373959)
-                        .build()
+                        .build(),
+                new ResponseListener<EstimatedTimeArrivalResponse>() {
+                    @Override
+                    public void onSuccess(EstimatedTimeArrivalResponse response) {
+                        Toast.makeText(MainActivity.this, response.getDistance().toString(), Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onError(MapirError error) {
+                        Toast.makeText(MainActivity.this, error.getErrorMessage(), Toast.LENGTH_LONG).show();
+                    }
+                }
         );
-    }
-
-    @Override
-    public void onSuccess(MapirResponse response) {
-        if (response instanceof ReverseGeoCodeResponse)
-            Toast.makeText(this, ((ReverseGeoCodeResponse) response).getAddress(), Toast.LENGTH_SHORT).show();
-        else if (response instanceof FastReverseGeoCodeResponse)
-            Toast.makeText(this, ((FastReverseGeoCodeResponse) response).getAddress(), Toast.LENGTH_SHORT).show();
-        else if (response instanceof PlaqueReverseGeoCodeResponse)
-            Toast.makeText(this, ((PlaqueReverseGeoCodeResponse) response).getPlaque(), Toast.LENGTH_SHORT).show();
-        else if (response instanceof SearchResponse)
-            Toast.makeText(this, ((SearchResponse) response).getSearchItems().get(0).getAddress(), Toast.LENGTH_SHORT).show();
-        else if (response instanceof AutoCompleteSearchResponse)
-            Toast.makeText(this, ((AutoCompleteSearchResponse) response).getSearchItems().get(0).getAddress(), Toast.LENGTH_SHORT).show();
-        else if (response instanceof RouteResponse)
-            Toast.makeText(this, ((RouteResponse) response).getRoutes().get(0).getDistance().toString(), Toast.LENGTH_SHORT).show();
-        else if (response instanceof StaticMapResponse)
-            ((ImageView) findViewById(R.id.sample_img)).setImageBitmap(((StaticMapResponse) response).getBitmapStaticMap());
-        else if (response instanceof DistanceMatrixResponse)
-            Toast.makeText(this, ((DistanceMatrixResponse) response).getOrigins().get(0).getId(), Toast.LENGTH_SHORT).show();
-        else if (response instanceof GeofenceResponse)
-            Toast.makeText(this, ((GeofenceResponse) response).getGeofenceData().get(0).getBoundry().getType(), Toast.LENGTH_SHORT).show();
-        else if (response instanceof EstimatedTimeArrivalResponse)
-            Toast.makeText(this, ((EstimatedTimeArrivalResponse) response).getDistance().toString(), Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onError(MapirError error) {
-        Toast.makeText(this, error.getErrorMessage(), Toast.LENGTH_LONG).show();
     }
 }

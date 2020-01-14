@@ -2,7 +2,7 @@ package ir.shiveh.mapirservicetest;
 
 import android.app.Application;
 
-import ir.map.sdk_service.MapirService;
+import ir.map.sdk_service.main.MapirService;
 
 public class AppController extends Application {
 
